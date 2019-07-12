@@ -25,7 +25,7 @@ SECRET_KEY = '806x)o=mk+5&^brxq34lp#sxg3q7o(hcph#ogo7#sq94_^8o9f'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['http://outback-dev.us-west-2.elasticbeanstalk.com','127.0.0.1',]
+ALLOWED_HOSTS = ['outback-dev.us-west-2.elasticbeanstalk.com','127.0.0.1',]
 
 
 # Application definition
