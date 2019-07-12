@@ -15,11 +15,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from outback.relics.views import home
-# from relics.views import home
-
+from relics.views import DatasList
+# from outback.relics.views import DatasList
 urlpatterns = [
+    path('', DatasList.as_view(), name='datas'),
     path('admin/', admin.site.urls),
-    path('',home),
     # path('api-auth/', include('rest_framework.urls'))
 ]
