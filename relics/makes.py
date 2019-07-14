@@ -32,6 +32,8 @@ def listGet(unit, index, times):
             ccmaName=a[2],  # string,문화재유형
             ccbaCtcdNm=a[6],  # string,시도명
             ccsiName=a[7],  # string,시군구명
+            longitude =a[14],
+            latitude =a[15]
             # ccbaLcad =          #string,주소 상세
             # content =           #string,내용
         )

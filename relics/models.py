@@ -19,7 +19,7 @@ class Datas(models.Model):
         max_length=20, null=True, blank=True)  # string,시도명
     ccsiName = models.CharField(
         max_length=20, null=True, blank=True)  # string,시군구명
-    longitude = models.CharField(max_length=30, null=True, blank=True)  # 위도
-    latitude = models.CharField(max_length=30, null=True, blank=True)  # 경도
+    longitude = models.FloatField(null=True)  # 위도
+    latitude = models.FloatField(null=True)  # 경도
     ccbaLcad = models.TextField(null=True)  # string,주소 상세
     content = models.TextField(null=True)  # string,내용
