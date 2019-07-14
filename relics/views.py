@@ -16,10 +16,6 @@ class DatasList(APIView):
         datas = Datas.objects.all()
         serializer = DatasSerializer(datas, many=True)
         return Response(serializer.data)
-# TODO
-# 위도 경도로 get할 수 있는 api
-# 인자 : 현재 위도, 현재 경도, 범위 값
-
 
 class CoordinateList(APIView):
     def get(self, request, format=None):
