@@ -1,8 +1,12 @@
 from rest_framework import serializers
 
 # from .models import Datas
-from .models import Datas
+from .models import Datas, ByTime
 
+class ByTimeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ByTime
+        fields = '__all__'
 
 class ImageSerializer(serializers.Serializer):
     imageUrl = serializers.CharField()

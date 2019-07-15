@@ -1,4 +1,4 @@
-from .models import Datas
+from .models import Datas, ByTime
 from django.shortcuts import render
 from django.views.generic import ListView
 # rest_framework의 클래스 기반 뷰인 APIView
@@ -6,8 +6,15 @@ from rest_framework.views import APIView
 #
 from rest_framework.response import Response
 # serializer를 가져오기
-from .serializers import DatasSerializer, ImageSerializer, DetailSerializer
+from .serializers import DatasSerializer, ImageSerializer, DetailSerializer, ByTimeSerializer
 from .makes import DetailProxy
+
+
+class ByTimeView(APIView):
+    def get(self, reqeust, period, format=None):
+        datas = ByTime.objects.filter(period=period)
+        serializer = ByTimeSerializer(datas, many=True)
+        return Response(serializer.data)
 
 
 class ProxyImage(APIView):
