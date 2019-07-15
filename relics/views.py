@@ -9,6 +9,10 @@ from rest_framework.response import Response
 # serializer를 가져오기
 from .serializers import DatasSerializer
 
+# class ProxyImage(APIView):
+    # def 
+    # def get(self, reqeust, format=None):
+
 
 class DatasList(APIView):
     # List를 읽기 위한 메서드

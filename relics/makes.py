@@ -6,6 +6,25 @@ url = "http://www.cha.go.kr/cha/SearchKindOpenapiList.do?pageUnit=2&pageIndex=1&
 # from relics.makes import detail_get
 
 
+def image_get(*args, **kwargs):
+    IMAGE_URL = "http://www.cha.go.kr/cha/SearchImageOpenapi.do?"
+    PARAMS = ""
+    for key, val in kwargs.items():
+        PARAMS = PARAMS + key + "=" + val
+    URL = IMAGE_URL + PARAMS
+    targetXML = urllib.request.urlopen(URL).read().decode('utf-8')
+    root = ET.fromstring(targetXML)
+    
+    for child in root.iter("item"):
+        i = 0
+        a = list()
+        for cchild in child:
+            a.insert(i, cchild.text)
+            i = i+1
+
+       
+
+
 def listGet(unit, index, times):
     URL = "http://www.cha.go.kr/cha/SearchKindOpenapiList.do"
     URL = URL + '?pageUnit=' + \
@@ -32,8 +51,8 @@ def listGet(unit, index, times):
             ccmaName=a[2],  # string,문화재유형
             ccbaCtcdNm=a[6],  # string,시도명
             ccsiName=a[7],  # string,시군구명
-            longitude =a[14],
-            latitude =a[15]
+            longitude=a[14],
+            latitude=a[15]
             # ccbaLcad =          #string,주소 상세
             # content =           #string,내용
         )
