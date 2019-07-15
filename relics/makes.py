@@ -8,21 +8,30 @@ url = "http://www.cha.go.kr/cha/SearchKindOpenapiList.do?pageUnit=2&pageIndex=1&
 
 
 def getToParams(URL, *args, **kwargs):
-        PARAMS = ""
-        for key, val in kwargs.items():
-            PARAMS = PARAMS + key + "=" + val[0] + "&"
-        URL = URL + PARAMS
-        # print(URL)
-        targetXML = urllib.request.urlopen(URL).read().decode('utf-8')
-        root = ET.fromstring(targetXML)
+    PARAMS = ""
 
-        for child in root.iter("item"):
-            a = []
-            for cchild in child:
-                a.append({cchild.tag: cchild.text})
-            a = json.dumps(a)
-            # print(a)
-            return a
+    for key, val in kwargs.items():
+        PARAMS = PARAMS + key + "=" + val[0] + "&"
+
+    URL = URL + PARAMS
+    print(URL)
+    targetXML = urllib.request.urlopen(URL).read().decode('utf-8')
+    root = ET.fromstring(targetXML)
+    # print(root.find('totalCnt').text)
+    # item_length = int(root.find('totalCnt').text)
+    item = root.find('item')
+    ccimDesc = item.findall('ccimDesc')
+    imageUrl = item.findall('imageUrl')
+    item_list = []
+    for item in range(len(imageUrl)):
+        item_dict = {
+            'imageUrl': imageUrl[item].text,
+            'ccimDesc': ccimDesc[item].text
+        }
+        item_list.append(item_dict)
+    item_list = json.dumps(item_list, ensure_ascii=False)
+
+    return item_list
 
 
 class DetailProxy():
