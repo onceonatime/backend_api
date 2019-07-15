@@ -15,11 +15,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from relics.views import DatasList, SiteList, TimesList, CityList, CoordinateList
+from relics.views import DatasList, SiteList, TimesList, CityList, CoordinateList, ProxyImage, ProxyDetail
 # from outback.relics.views import DatasList
 
 urlpatterns = [
     path('', DatasList.as_view(), name='datas'),
+    path('images/', ProxyImage.as_view(), name="images"),
+    path('detail/', ProxyDetail.as_view(), name="detail"),
     path('coordinate/', CoordinateList.as_view(), name="coord"),
     path('sites/<city>/', CityList.as_view(), name="citys"),
     path('sites/<city>/<town>/', SiteList.as_view(), name="sites"),

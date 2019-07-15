@@ -1,28 +1,39 @@
 import xml.etree.ElementTree as ET
 import urllib.request
 from .models import Datas
+import json
 
 url = "http://www.cha.go.kr/cha/SearchKindOpenapiList.do?pageUnit=2&pageIndex=1&ccbaPcd1=09"
 # from relics.makes import detail_get
 
 
-def image_get(*args, **kwargs):
-    IMAGE_URL = "http://www.cha.go.kr/cha/SearchImageOpenapi.do?"
-    PARAMS = ""
-    for key, val in kwargs.items():
-        PARAMS = PARAMS + key + "=" + val
-    URL = IMAGE_URL + PARAMS
-    targetXML = urllib.request.urlopen(URL).read().decode('utf-8')
-    root = ET.fromstring(targetXML)
-    
-    for child in root.iter("item"):
-        i = 0
-        a = list()
-        for cchild in child:
-            a.insert(i, cchild.text)
-            i = i+1
+def getToParams(URL, *args, **kwargs):
+        PARAMS = ""
+        for key, val in kwargs.items():
+            PARAMS = PARAMS + key + "=" + val[0] + "&"
+        URL = URL + PARAMS
+        # print(URL)
+        targetXML = urllib.request.urlopen(URL).read().decode('utf-8')
+        root = ET.fromstring(targetXML)
 
-       
+        for child in root.iter("item"):
+            a = []
+            for cchild in child:
+                a.append({cchild.tag: cchild.text})
+            a = json.dumps(a)
+            # print(a)
+            return a
+
+
+class DetailProxy():
+    def get_image(*args, **kwargs):
+        URL = "http://www.cha.go.kr/cha/SearchImageOpenapi.do?"
+        data = getToParams(URL, *args, **kwargs)
+        return data
+
+    def get_detail(*args, **kwargs):
+        URL = "http://www.cha.go.kr/cha/SearchKindOpenapiDt.do?"
+        return getToParams(URL, *args, **kwargs)
 
 
 def listGet(unit, index, times):

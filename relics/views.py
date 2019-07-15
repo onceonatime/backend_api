@@ -5,13 +5,21 @@ from django.views.generic import ListView
 from rest_framework.views import APIView
 #
 from rest_framework.response import Response
-
 # serializer를 가져오기
 from .serializers import DatasSerializer
+from .makes import DetailProxy
 
-# class ProxyImage(APIView):
-    # def 
-    # def get(self, reqeust, format=None):
+
+class ProxyImage(APIView):
+    def get(self, reqeust, format=None):
+        data = DetailProxy.get_image(self, **reqeust.GET)
+        return Response(data)
+
+
+class ProxyDetail(APIView):
+    def get(self, reqeust, format=None):
+        data = DetailProxy.get_detail(**reqeust.GET)
+        return Response(data)
 
 
 class DatasList(APIView):
@@ -20,6 +28,7 @@ class DatasList(APIView):
         datas = Datas.objects.all()
         serializer = DatasSerializer(datas, many=True)
         return Response(serializer.data)
+
 
 class CoordinateList(APIView):
     def get(self, request, format=None):
@@ -31,9 +40,10 @@ class CoordinateList(APIView):
         datas = Datas.objects.filter(
             latitude__range=(southEastLatitude, northWestLatitude),
             longitude__range=(southEastLongitude, northWestLongitude))
-        
+
         serializer = DatasSerializer(datas, many=True)
         return Response(serializer.data)
+
 
 class SiteList(APIView):
     def get(self, request, city, town, fromat=None):
