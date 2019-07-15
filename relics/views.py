@@ -6,20 +6,22 @@ from rest_framework.views import APIView
 #
 from rest_framework.response import Response
 # serializer를 가져오기
-from .serializers import DatasSerializer
+from .serializers import DatasSerializer, ImageSerializer, DetailSerializer
 from .makes import DetailProxy
 
 
 class ProxyImage(APIView):
     def get(self, reqeust, format=None):
-        data = DetailProxy.get_image(self, **reqeust.GET)
-        return Response(data)
+        datas = DetailProxy.get_image(**reqeust.GET)
+        serializer = ImageSerializer(datas, many=True)
+        return Response(serializer.data)
 
 
 class ProxyDetail(APIView):
     def get(self, reqeust, format=None):
-        data = DetailProxy.get_detail(**reqeust.GET)
-        return Response(data)
+        datas = DetailProxy.get_detail(**reqeust.GET)
+        serializer = DetailSerializer(datas)
+        return Response(serializer.data)
 
 
 class DatasList(APIView):

@@ -7,42 +7,50 @@ url = "http://www.cha.go.kr/cha/SearchKindOpenapiList.do?pageUnit=2&pageIndex=1&
 # from relics.makes import detail_get
 
 
-def getToParams(URL, *args, **kwargs):
-    PARAMS = ""
-
-    for key, val in kwargs.items():
-        PARAMS = PARAMS + key + "=" + val[0] + "&"
-
-    URL = URL + PARAMS
-    print(URL)
-    targetXML = urllib.request.urlopen(URL).read().decode('utf-8')
-    root = ET.fromstring(targetXML)
-    # print(root.find('totalCnt').text)
-    # item_length = int(root.find('totalCnt').text)
-    item = root.find('item')
-    ccimDesc = item.findall('ccimDesc')
-    imageUrl = item.findall('imageUrl')
-    item_list = []
-    for item in range(len(imageUrl)):
-        item_dict = {
-            'imageUrl': imageUrl[item].text,
-            'ccimDesc': ccimDesc[item].text
-        }
-        item_list.append(item_dict)
-    item_list = json.dumps(item_list, ensure_ascii=False)
-
-    return item_list
-
-
 class DetailProxy():
     def get_image(*args, **kwargs):
         URL = "http://www.cha.go.kr/cha/SearchImageOpenapi.do?"
-        data = getToParams(URL, *args, **kwargs)
-        return data
+        PARAMS = ""
+        for key, val in kwargs.items():
+            PARAMS = PARAMS + key + "=" + val[0] + "&"
+
+        URL = URL + PARAMS
+        print(URL)
+        targetXML = urllib.request.urlopen(URL).read().decode('utf-8')
+        root = ET.fromstring(targetXML)
+        # print(root.find('totalCnt').text)
+        # item_length = int(root.find('totalCnt').text)
+        item = root.find('item')
+        ccimDesc = item.findall('ccimDesc')
+        imageUrl = item.findall('imageUrl')
+        item_list = []
+        for item in range(len(imageUrl)):
+            item_dict = {
+                'imageUrl': imageUrl[item].text,
+                'ccimDesc': ccimDesc[item].text
+            }
+            item_list.append(item_dict)
+        return item_list
 
     def get_detail(*args, **kwargs):
         URL = "http://www.cha.go.kr/cha/SearchKindOpenapiDt.do?"
-        return getToParams(URL, *args, **kwargs)
+        PARAMS = ""
+        for key, val in kwargs.items():
+            PARAMS = PARAMS + key + "=" + val[0] + "&"
+
+        URL = URL + PARAMS
+        print(URL)
+        result = urllib.request.urlopen(URL)
+        print(result)
+        targetXML = result.read().decode('utf-8')
+        root = ET.fromstring(targetXML)
+        item = root.find('./item')
+        item_dict = {
+            'ccbaMnm1': item.find('./ccbaMnm1').text,
+            'ccbaLcad': item.find('./ccbaLcad').text.strip(),
+            'content': item.find('./content').text,
+        }
+        return item_dict
 
 
 def listGet(unit, index, times):
