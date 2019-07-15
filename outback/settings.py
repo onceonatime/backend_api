@@ -26,7 +26,7 @@ SECRET_KEY = '806x)o=mk+5&^brxq34lp#sxg3q7o(hcph#ogo7#sq94_^8o9f'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['outback-dev.us-west-2.elasticbeanstalk.com', '127.0.0.1', ]
+ALLOWED_HOSTS = ['outback-dev.us-west-2.elasticbeanstalk.com', '127.0.0.1', 'https://onceonatime.herokuapp.com']
 
 
 # Application definition
@@ -134,4 +134,6 @@ STATIC_ROOT = os.path.join(ROOT_DIR, '.static_root')
 CORS_ALLOW_CREDENTIALS = True
 CORS_ORIGIN_WHITELIST = [
     "http://localhost:8080",
+    "http://localhost:5000",
+    "https://onceonatime.herokuapp.com",
 ]
